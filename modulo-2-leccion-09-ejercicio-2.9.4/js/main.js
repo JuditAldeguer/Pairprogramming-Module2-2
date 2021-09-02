@@ -41,7 +41,7 @@ function inputCheck(event) {
   } else {
     // input.checked = false;
     console.log('No checked');
-    tasks[event].completed = false;
+    tasks[event.currentTarget].completed = false; // ------------------------falta indicar sobre el elemento current target
   }
   console.log(tasks);
 }
