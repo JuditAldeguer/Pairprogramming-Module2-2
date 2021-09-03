@@ -11,33 +11,29 @@ fetch('http://api.igarrido.es/tasks.json')
   });
 
 function render() {
-  for (const data of tasks) {
+  ul.innerHTML = '';
+  for (let index = 0; index < tasks.length; index++) {
+    const data = tasks[index];
     if (data.completed) {
-      const html = `<li><input class="js_input" checked type="checkbox"/><label class="completed">${data.name}</label></li>`;
+      const html = `<li><input id="${index}" class="js_input" checked type="checkbox"/><label id="name-${index}" class="completed">${data.name}</label></li>`;
       ul.innerHTML += html;
     } else if (data.completed !== true) {
-      const html = `<li><input class="js_input" type="checkbox"/><label class="completed">${data.name}</label><li>`;
+      const html = `<li><input id="${index}" class="js_input" type="checkbox"/><label id="name-${index}" class="">${data.name}</label><li>`;
       ul.innerHTML += html;
     }
   }
-  const allInput = document.querySelectorAll('.js_input');
-  console.log(allInput); //array checkbox
+
   listenerEv();
 }
+
 function listenerEv() {
+  const allInput = document.querySelectorAll('.js_input');
+  console.log(allInput); //array checkbox
   for (const eachInput of allInput) {
     eachInput.addEventListener('click', handleClickTask);
   }
 }
-function handleClickTask(event) {
-  debugger;
-  if (input.checked === true) {
-    input.checked = true;
-    console.log('Checked');
-  } else {
-    // input.checked = false;
-    console.log('No checked');
-    tasks[event.currentTarget].completed = false; // ------------------------falta indicar sobre el elemento current target
-  }
-  console.log(tasks);
+function handleClickTask(ev) {
+  const labelSister = ev.target.parentNode.querySelector('label');
+  labelSister.classList.toggle('completed');
 }
