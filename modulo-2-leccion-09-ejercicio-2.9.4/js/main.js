@@ -14,11 +14,12 @@ function render() {
   ul.innerHTML = '';
   for (let index = 0; index < tasks.length; index++) {
     const data = tasks[index];
+    debugger;
     if (data.completed) {
       const html = `<li><input id="${index}" class="js_input" checked type="checkbox"/><label id="name-${index}" class="completed">${data.name}</label></li>`;
       ul.innerHTML += html;
     } else if (data.completed !== true) {
-      const html = `<li><input id="${index}" class="js_input" type="checkbox"/><label id="name-${index}" class="">${data.name}</label><li>`;
+      const html = `<li><input id="${index}" class="js_input" type="checkbox"/><label id="name-${index}" class="">${data.name}</label></li>`;
       ul.innerHTML += html;
     }
   }
