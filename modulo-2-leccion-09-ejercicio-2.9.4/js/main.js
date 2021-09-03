@@ -7,44 +7,29 @@ fetch('http://api.igarrido.es/tasks.json')
   .then((response) => response.json())
   .then((jsonData) => {
     tasks = jsonData;
-
     render();
   });
 
 function render() {
   for (const data of tasks) {
     if (data.completed) {
-      const html = `<li class="completed">${data.name}</li>`;
-      main.innerHTML += html;
-    } else {
-      const html = `<li>${data.name}</li>`;
-      main.innerHTML += html;
-    }
-  }
-}
-
-function forObject() {
-  for (const data of tasks) {
-    if (data.completed) {
-      input = '<input checked type="checkbox" class="inputClass"/>';
-      const html = `<li class="completed">${data.name}</li>${input}`;
+      const html = `<li><input class="js_input" checked type="checkbox"/><label class="completed">${data.name}</label></li>`;
       ul.innerHTML += html;
-    } else {
-      input = '<input type="checkbox" class="inputClass"/>';
-      const html = `<li class="">${data.name}</li>${input}`;
+    } else if (data.completed !== true) {
+      const html = `<li><input class="js_input" type="checkbox"/><label class="completed">${data.name}</label><li>`;
       ul.innerHTML += html;
     }
   }
+  const allInput = document.querySelectorAll('.js_input');
+  console.log(allInput); //array checkbox
   listenerEv();
 }
 function listenerEv() {
-  const checkboxList = document.querySelectorAll('.inputClass');
-  console.log(checkboxList); //array checkbox
-  for (const checkbox of checkboxList) {
-    checkbox.addEventListener('click', inputCheck);
+  for (const eachInput of allInput) {
+    eachInput.addEventListener('click', handleClickTask);
   }
 }
-function inputCheck(event) {
+function handleClickTask(event) {
   debugger;
   if (input.checked === true) {
     input.checked = true;
@@ -56,5 +41,3 @@ function inputCheck(event) {
   }
   console.log(tasks);
 }
-
-forObject();
