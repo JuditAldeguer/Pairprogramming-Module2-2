@@ -7,54 +7,34 @@ fetch('http://api.igarrido.es/tasks.json')
   .then((response) => response.json())
   .then((jsonData) => {
     tasks = jsonData;
-
     render();
   });
 
 function render() {
-  for (const data of tasks) {
+  ul.innerHTML = '';
+  for (let index = 0; index < tasks.length; index++) {
+    const data = tasks[index];
+    debugger;
     if (data.completed) {
-      const html = `<li class="completed">${data.name}</li>`;
-      main.innerHTML += html;
-    } else {
-      const html = `<li>${data.name}</li>`;
-      main.innerHTML += html;
+      const html = `<li><input id="${index}" class="js_input" checked type="checkbox"/><label id="name-${index}" class="completed">${data.name}</label></li>`;
+      ul.innerHTML += html;
+    } else if (data.completed !== true) {
+      const html = `<li><input id="${index}" class="js_input" type="checkbox"/><label id="name-${index}" class="">${data.name}</label></li>`;
+      ul.innerHTML += html;
     }
   }
-}
 
-function forObject() {
-  for (const data of tasks) {
-    if (data.completed) {
-      input = '<input checked type="checkbox" class="inputClass"/>';
-      const html = `<li class="completed">${data.name}</li>${input}`;
-      ul.innerHTML += html;
-    } else {
-      input = '<input type="checkbox" class="inputClass"/>';
-      const html = `<li class="">${data.name}</li>${input}`;
-      ul.innerHTML += html;
-    }
-  }
   listenerEv();
 }
-function listenerEv() {
-  const checkboxList = document.querySelectorAll('.inputClass');
-  console.log(checkboxList); //array checkbox
-  for (const checkbox of checkboxList) {
-    checkbox.addEventListener('click', inputCheck);
-  }
-}
-function inputCheck(event) {
-  debugger;
-  if (input.checked === true) {
-    input.checked = true;
-    console.log('Checked');
-  } else {
-    // input.checked = false;
-    console.log('No checked');
-    tasks[event.currentTarget].completed = false; // ------------------------falta indicar sobre el elemento current target
-  }
-  console.log(tasks);
-}
 
-forObject();
+function listenerEv() {
+  const allInput = document.querySelectorAll('.js_input');
+  console.log(allInput); //array checkbox
+  for (const eachInput of allInput) {
+    eachInput.addEventListener('click', handleClickTask);
+  }
+}
+function handleClickTask(ev) {
+  const labelSister = ev.target.parentNode.querySelector('label');
+  labelSister.classList.toggle('completed');
+}
