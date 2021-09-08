@@ -36,12 +36,12 @@
       </header>
       <!-- menu desplegable -->
       <form class="menudropdown collapsed js_menuDropDown">
-        <fieldset class="menu__data-search">
+        <fieldset class="menu__data-search js_filter">
           <h2 class="menu__title">Búsqueda</h2>
           <label class="data-search__epigraph" for="search_desc"
             >Buscar por descripción:
             <input
-              class="data-search__tag js_search"
+              class="data-search__tag js_filter_desc"
               type="text"
               name="search_desc"
               class="search_desc"
@@ -49,6 +49,7 @@
           <h3 class="data-search__epigraph">Buscar por etiquetas:</h3>
           <label class="data-search__tag" for="search_desc"
             ><input
+              class="js_filter_check"
               type="checkbox"
               name="search_tags"
               id="search_tags_javascript"
@@ -59,6 +60,7 @@
           >
           <label class="data-search__tag" for="search_desc"
             ><input
+              class="js_filter_check"
               type="checkbox"
               name="search_tags"
               class="search_tags_portfolio"
@@ -69,6 +71,7 @@
           >
           <label class="data-search__tag" for="search_desc"
             ><input
+              class="js_filter_check"
               type="checkbox"
               name="search_tags"
               class="search_tags_portfolio"
@@ -78,7 +81,7 @@
             >html</label
           >
           <label class="data-search__epigraph" for="search_desc">
-            Buscar bookmarks de los profes:
+            Buscar por estado:
             <select
               class="data-search__tag"
               name="search_desc"

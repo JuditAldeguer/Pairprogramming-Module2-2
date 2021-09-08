@@ -14,7 +14,9 @@ const formBtnAccept = document.querySelector('.accept');
 const formBtnCancel = document.querySelector('.cancel');
 const inputArray = document.querySelectorAll('.data-actions__input');
 const main = document.querySelector('.main');
-const search = document.querySelector('.js_search');
+const search = document.querySelector('.js_filter');
+const searchDesc = document.querySelector('.js_filter_desc');
+const searchCheck = document.querySelectorAll('.js_filter_check');
 let ebooks = [
   {
     url: 'https://books.adalab.es/materiales-del-curso-n/-MdR6Gp68BX20m1pi0z2/modulo-2-programando-la-web/javascript/2_1_intro_a_la_programacion',
@@ -56,24 +58,6 @@ function handleClickMenu2(event) {
 
 hamburgerMenu.addEventListener('click', handleClickMenu);
 main.addEventListener('click', handleClickMenu2);
-
-//Cambiar de vista targetas / tabla
-function handleClicView(event) {
-  event.preventDefault();
-  if (event.currentTarget.value === 'list') {
-    boardData.classList.remove('tableview');
-    boardData.classList.add('listview');
-    buttonTableView.classList.remove('selected');
-    buttonListView.classList.add('selected');
-  } else {
-    boardData.classList.remove('listview');
-    boardData.classList.add('tableview');
-    buttonTableView.classList.add('selected');
-    buttonListView.classList.remove('selected');
-  }
-}
-buttonListView.addEventListener('click', handleClicView);
-buttonTableView.addEventListener('click', handleClicView);
 
 //Añadir sección para nueva linea en table / nueva tarjeta
 function handleClickBtn(event) {
@@ -169,20 +153,65 @@ function newLineAdded(event) {
 }
 formBtnAccept.addEventListener('click', newLineAdded);
 
-// Buscador input texto
-function handleSearch() {
-  debugger;
-  const searchText = ebooks.filter((book) =>
-    book.desc.toLowerCase().includes(search.value)
+//Cambiar de vista targetas / tabla
+function handleClicView(event) {
+  event.preventDefault();
+  if (event.currentTarget.value === 'list') {
+    boardData.classList.remove('tableview');
+    boardData.classList.add('listview');
+    buttonTableView.classList.remove('selected');
+    buttonListView.classList.add('selected');
+  } else {
+    boardData.classList.remove('listview');
+    boardData.classList.add('tableview');
+    buttonTableView.classList.add('selected');
+    buttonListView.classList.remove('selected');
+  }
+}
+buttonListView.addEventListener('click', handleClicView);
+buttonTableView.addEventListener('click', handleClicView);
+
+// Buscador / Filtro
+function handleSearch(ev) {
+  let searchText = ebooks.filter((book) =>
+    book.desc.toLowerCase().includes(searchDesc.value)
   );
+  //searchCheckFunction();
   console.table(searchText);
   writeEbooksFiltred(searchText);
 }
-search.addEventListener('keyup', handleSearch);
 
-//Listener Pendientes
+function searchCheckFunction() {
+  //check function da error -----------
+  debugger;
+  let searchText = ebooks.filter((book) => {
+    for (const eachSearchCheck of searchCheck) {
+      if (eachSearchCheck.checked === true) {
+        for (const eachTag of book.tags) {
+          eachTag.toLowerCase().includes(eachSearchCheck.value);
+        }
+        console.log(`${eachSearchCheck} is checked`);
+      } else {
+        console.log(`${eachSearchCheck} is NOT checked`);
+      }
+    }
+  });
+  writeEbooksFiltred(searchText);
+  // searchText = ebooks.filter((book) =>
+  //   book.desc.toLowerCase().includes(searchCheck[0].value)
+  // );
+}
+
+searchDesc.addEventListener('keyup', handleSearch);
+search.addEventListener('change', handleSearch);
+
+//Etiqueta vacia PENDIENTE
 //si etiqueta está vacia --> display none - si etiqueta está llena --> ok
 // Lección 2.3	ejercicio 1 (condicionales)
 // avatar por defecto
 
-//
+//Reset PENDIENTE
+
+//Select leido/no leiodo PENDIENTE
+
+//tags por separado PENDIENTE
