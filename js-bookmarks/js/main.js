@@ -18,17 +18,22 @@ const search = document.querySelector('.js_search');
 let ebooks = [
   {
     url: 'https://books.adalab.es/materiales-del-curso-n/-MdR6Gp68BX20m1pi0z2/modulo-2-programando-la-web/javascript/2_1_intro_a_la_programacion',
-    desc: 'JS en los materiales de Adalab',
     seen: true,
+    desc: 'JS en los materiales de Adalab',
     tags: ['javascript', 'HTML'],
   },
   {
     url: 'https://thesmartcoder.dev/9-awesome-projects-you-can-build-with-vanilla-javascript/',
-    desc: 'Ideas de proyectos JS',
     seen: true,
+    desc: 'Ideas de proyectos JS',
     tags: ['javascript', 'portfolio'],
   },
-  { url: '', desc: '', seen: true, tags: [] },
+  {
+    url: 'https://books.adalab.es/materiales-del-curso-n/-MdR6Gp68BX20m1pi0z2/modulo-1-html-y-css/1_1_intro_a_la_web',
+    seen: false,
+    desc: 'HTML en los materiales de Adalab',
+    tags: ['HTML', 'CSS'],
+  },
 ];
 
 writeEbooks();
@@ -117,6 +122,32 @@ function writeEbooks() {
     dataList.innerHTML += htmlLineInput;
   }
 }
+function writeEbooksFiltred(searchText) {
+  dataList.innerHTML = '';
+  for (const eachBook of searchText) {
+    let htmlLineInput = `
+    <li class="data__listitem">
+      <article class="data__item">
+        <p class="item__url">
+          <a href="${eachBook.url}" target="_blank" rel="noopener noreferrer">
+          ${eachBook.url}
+          </a>
+        </p>
+        <p class="item__seen">
+          <input type="checkbox" ${checking(
+            eachBook
+          )} name="item_imp_2" id="item_imp_2">
+        </p>
+        <p class="item__desc">${eachBook.desc}</p>
+        <ul class="item__tags">
+          <li class="item__tag">${eachBook.tags}</li>
+        </ul>
+      </article>
+    </li>
+    `;
+    dataList.innerHTML += htmlLineInput;
+  }
+}
 
 function htmlLineInput() {
   const newBookData = {
@@ -138,19 +169,20 @@ function newLineAdded(event) {
 }
 formBtnAccept.addEventListener('click', newLineAdded);
 
+// Buscador input texto
+function handleSearch() {
+  debugger;
+  const searchText = ebooks.filter((book) =>
+    book.desc.toLowerCase().includes(search.value)
+  );
+  console.table(searchText);
+  writeEbooksFiltred(searchText);
+}
+search.addEventListener('keyup', handleSearch);
+
 //Listener Pendientes
 //si etiqueta está vacia --> display none - si etiqueta está llena --> ok
 // Lección 2.3	ejercicio 1 (condicionales)
 // avatar por defecto
 
 //
-
-// Buscador input texto
-function handleSearch() {
-  const searchText = ebooks.find((book) =>
-    book.toLowerCase().includes(search.value)
-  );
-}
-search.addEventListener('keyup', handleSearch);
-
-console.log(ebooks);
