@@ -13,6 +13,25 @@ const dataList = document.querySelector('.data__list');
 const formBtnAccept = document.querySelector('.accept');
 const formBtnCancel = document.querySelector('.cancel');
 const inputArray = document.querySelectorAll('.data-actions__input');
+const main = document.querySelector('.main');
+const search = document.querySelector('.js_search');
+let ebooks = [
+  {
+    url: 'https://books.adalab.es/materiales-del-curso-n/-MdR6Gp68BX20m1pi0z2/modulo-2-programando-la-web/javascript/2_1_intro_a_la_programacion',
+    desc: 'JS en los materiales de Adalab',
+    seen: true,
+    tags: ['javascript', 'HTML'],
+  },
+  {
+    url: 'https://thesmartcoder.dev/9-awesome-projects-you-can-build-with-vanilla-javascript/',
+    desc: 'Ideas de proyectos JS',
+    seen: true,
+    tags: ['javascript', 'portfolio'],
+  },
+  { url: '', desc: '', seen: true, tags: [] },
+];
+
+writeEbooks();
 
 //Menu desplegable
 function handleClickMenu(event) {
@@ -23,7 +42,15 @@ function handleClickMenu(event) {
     menuDropDown.classList.add('collapsed');
   }
 }
+
+function handleClickMenu2(event) {
+  if (!menuDropDown.classList.contains('collapsed')) {
+    menuDropDown.classList.add('collapsed');
+  }
+}
+
 hamburgerMenu.addEventListener('click', handleClickMenu);
+main.addEventListener('click', handleClickMenu2);
 
 //Cambiar de vista targetas / tabla
 function handleClicView(event) {
@@ -54,39 +81,54 @@ formNewLineBtn.addEventListener('click', handleClickBtn);
 formBtnCancel.addEventListener('click', handleClickBtn);
 
 //Funcion nueva linea en tabla
-function checking() {
-  debugger;
+function checking(eachBook) {
   let interactionCheck = '';
-  if (inputArray[1].checked === true) {
-    interactionCheck = '"checked" title="Enlace leído"';
-  } else if (inputArray[1].checked === false) {
+  if (eachBook.seen === true) {
+    interactionCheck = 'checked title="Enlace leído"';
+  } else if (eachBook.seen === false) {
     interactionCheck = 'title="Por leer"';
   }
   return interactionCheck;
 }
+
+function writeEbooks() {
+  dataList.innerHTML = '';
+  for (const eachBook of ebooks) {
+    let htmlLineInput = `
+    <li class="data__listitem">
+      <article class="data__item">
+        <p class="item__url">
+          <a href="${eachBook.url}" target="_blank" rel="noopener noreferrer">
+          ${eachBook.url}
+          </a>
+        </p>
+        <p class="item__seen">
+          <input type="checkbox" ${checking(
+            eachBook
+          )} name="item_imp_2" id="item_imp_2">
+        </p>
+        <p class="item__desc">${eachBook.desc}</p>
+        <ul class="item__tags">
+          <li class="item__tag">${eachBook.tags}</li>
+        </ul>
+      </article>
+    </li>
+    `;
+    dataList.innerHTML += htmlLineInput;
+  }
+}
+
 function htmlLineInput() {
-  debugger;
-  let htmlLineInput = `
-  <li class="data__listitem">
-    <article class="data__item">
-      <p class="item__url">
-        <a href="${
-          inputArray[0].value
-        }" target="_blank" rel="noopener noreferrer">
-        ${inputArray[0].value}
-        </a>
-      </p>
-      <p class="item__seen">
-        <input type="checkbox" ${checking()} name="item_imp_2" id="item_imp_2">
-      </p>
-      <p class="item__desc">${inputArray[2].value}</p>
-      <ul class="item__tags">
-        <li class="item__tag">${inputArray[3].value}</li>
-      </ul>
-    </article>
-  </li>
-  `;
-  dataList.innerHTML += htmlLineInput;
+  const newBookData = {
+    url: inputArray[0].value,
+    seen: inputArray[1].checked,
+    desc: inputArray[2].value,
+    tags: inputArray[3].value.split(','),
+  };
+
+  ebooks.push(newBookData);
+
+  writeEbooks();
 }
 //pendiente conseguir que se muestren tantos tags como palabras en array[3].innerhtml
 function newLineAdded(event) {
@@ -100,3 +142,15 @@ formBtnAccept.addEventListener('click', newLineAdded);
 //si etiqueta está vacia --> display none - si etiqueta está llena --> ok
 // Lección 2.3	ejercicio 1 (condicionales)
 // avatar por defecto
+
+//
+
+// Buscador input texto
+function handleSearch() {
+  const searchText = ebooks.find((book) =>
+    book.toLowerCase().includes(search.value)
+  );
+}
+search.addEventListener('keyup', handleSearch);
+
+console.log(ebooks);
