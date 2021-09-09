@@ -36,6 +36,8 @@ let counter = 0;
 function secondCount() {
   counter++;
   console.log(counter);
+
+  return counter;
 }
 setInterval(myFunction, 1000); // si no podemos parámetro tiempo, se ejecuta inmediatamente
 function myFunction() {
