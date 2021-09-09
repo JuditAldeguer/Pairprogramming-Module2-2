@@ -30,7 +30,7 @@
 // temp = setInterval(incrementAndShowCounter, 1000);
 
 //clearTimeout()
-const myVar;
+let myVar;
 let counter = 0;
 
 function secondCount() {
